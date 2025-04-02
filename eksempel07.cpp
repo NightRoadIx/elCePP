@@ -10,7 +10,7 @@ class FechaNacimiento {
 // Elementos de la clase privados
 private:
     // ATRIBUTOS
-    int dia, mes anno;
+    int dia, mes, anno;
 
     // Método para revisar que un año es bisiesto
     bool esBisiesto(int annio)
@@ -24,7 +24,7 @@ private:
         // y que el día se un valor no negativo
         if (mes < 1 || mes > 12 || dia < 1) return false;
         // Después generar un arreglo con el total de días de cada mes
-        int diasEnMes[] = {31, esBisiesto(anio) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int diasEnMes[] = {31, esBisiesto(anno) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
         return dia <= diasEnMes[mes - 1];
     }
@@ -100,6 +100,10 @@ int main() {
     // se puede usar tooooodo lo que tiene adentro
     // MENOS lo que esta encapsulado
     alexis.mostrar();
+
+    // float helado
+    FechaNacimiento naim(30, 2, 2005);
+    naim.mostrarFecha();
 
     return 0;
 }
