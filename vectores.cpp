@@ -1,5 +1,5 @@
 /************************************************************
- * Ejemplo 7: std::vector (arreglo dinámico)
+ * std::vector (arreglo dinámico)
  * -----------------------------------------
  * - push_back(): agrega al final, amortizadamente O(1).
  * - size(): número de elementos almacenados.
