@@ -1,5 +1,5 @@
 /************************************************************
- * Ejemplo 2: Operaciones con std::string
+ * Operaciones con std::string
  * --------------------------------------
  * - length(): longitud de la cadena.
  * - append(): concatena al final (equivalente a +=).
