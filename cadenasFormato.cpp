@@ -1,5 +1,5 @@
 /************************************************************
- * Ejemplo 8: stringstream para formatear cadenas
+ * stringstream para formatear cadenas
  * ----------------------------------------------
  * - stringstream permite construir texto como si fuera un cout
  *   en memoria (útil para logs, serialización simple, etc.).
