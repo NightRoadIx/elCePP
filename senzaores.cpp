@@ -172,8 +172,10 @@ void actualizarLecturas(vector<Sensor> &sensores, mt19937 &gen) {
 
 int main() {
     // OJO, esto solamente funciona en Windows
+    // permite manejar caracteres UTF8
     SetConsoleOutputCP(CP_UTF8);
 
+    // Crear un vector de Sensor
     vector<Sensor> sensores;
 
     // Generadores pseudoaleatorios
@@ -190,17 +192,23 @@ int main() {
     uniform_int_distribution<int> estadoDist(0, 1);
 
     // Crear sensores iniciales
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++) 
+    {
+        // Crar una estructura Sensor para llenar
         Sensor s;
+        // Armar la estructura
         s.id = i + 1;
+        // Con los valores aleatorios
         s.activo = estadoDist(gen);
         s.temperatura = tempDist(gen);
         s.presion = presDist(gen);
         s.iluminacion = ilumDist(gen);
 
+        // Aquí se manda al vector
         sensores.push_back(s);
     }
 
+    // Colocar la precisión a 2 dígitos
     cout << fixed << setprecision(2);
 
     cout << "=========================================\n";
