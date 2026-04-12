@@ -7,38 +7,73 @@
 using namespace std;
 
 /************************************************************
- * Clase base: Sensor
+ * CLASE BASE: Sensor
  * ----------------------------------------------------------
- * Representa las características comunes de cualquier sensor.
+ * Esta clase representa las características comunes de todos
+ * los sensores del sistema.
+ *
+ * CONCEPTOS CLAVE:
+ * - Clase base (superclase)
+ * - Encapsulamiento (atributos protected)
+ * - Reutilización de código
+ *
+ * ATRIBUTOS:
+ * - id: identificador único del sensor
+ * - activo: indica si el sensor está funcionando
  ************************************************************/
 class Sensor {
 protected:
-    int id;
-    bool activo;
+    int id;        // Identificador del sensor
+    bool activo;   // Estado del sensor
 
 public:
-    // Constructor
+
+    /********************************************************
+     * Constructor
+     * ------------------------------------------------------
+     * Inicializa el sensor con un ID.
+     * Por defecto, el sensor comienza activo.
+     ********************************************************/
     Sensor(int _id) {
         id = _id;
         activo = true;
     }
 
-    // Método para cambiar el estado
+    /********************************************************
+     * setActivo()
+     * ------------------------------------------------------
+     * Permite cambiar el estado del sensor.
+     ********************************************************/
     void setActivo(bool estado) {
         activo = estado;
     }
 
-    // Método para consultar el estado
+    /********************************************************
+     * estaActivo()
+     * ------------------------------------------------------
+     * Devuelve true si el sensor está activo.
+     ********************************************************/
     bool estaActivo() const {
         return activo;
     }
 
-    // Método para consultar el ID
+    /********************************************************
+     * getId()
+     * ------------------------------------------------------
+     * Devuelve el identificador del sensor.
+     ********************************************************/
     int getId() const {
         return id;
     }
 
-    // Método común para mostrar estado general
+    /********************************************************
+     * mostrarEstado()
+     * ------------------------------------------------------
+     * Muestra información básica común a todos los sensores.
+     *
+     * NOTA:
+     * Este método será reutilizado por las clases derivadas.
+     ********************************************************/
     void mostrarEstado() const {
         cout << "Sensor ID: " << id
              << " | Estado: " << (activo ? "Activo" : "Inactivo");
@@ -46,113 +81,195 @@ public:
 };
 
 /************************************************************
- * Clase derivada: SensorTemperatura
+ * CLASE DERIVADA: SensorTemperatura
  * ----------------------------------------------------------
- * Hereda de Sensor y agrega la variable temperatura.
+ * Hereda de la clase Sensor.
+ *
+ * CONCEPTOS CLAVE:
+ * - Herencia (public Sensor)
+ * - Especialización
+ *
+ * AGREGA:
+ * - temperatura
+ * - comportamiento específico de medición
  ************************************************************/
 class SensorTemperatura : public Sensor {
 private:
-    // Atributo particular de la clase
-    double temperatura;
+    double temperatura;  // Variable específica de este sensor
 
 public:
-    // Constructor de la clase hija que hereda de la clase padre
+
+    /********************************************************
+     * Constructor
+     * ------------------------------------------------------
+     * Inicializa el sensor de temperatura.
+     * Llama al constructor de la clase base (Sensor).
+     ********************************************************/
     SensorTemperatura(int _id) : Sensor(_id) {
         temperatura = 0.0;
     }
 
+    /********************************************************
+     * generarLectura()
+     * ------------------------------------------------------
+     * Simula una medición de temperatura usando valores
+     * pseudoaleatorios.
+     ********************************************************/
     void generarLectura(mt19937 &gen) {
         uniform_real_distribution<double> dist(0.0, 100.0);
         temperatura = dist(gen);
     }
 
+    /********************************************************
+     * mostrar()
+     * ------------------------------------------------------
+     * Muestra la información del sensor, reutilizando
+     * el método de la clase base.
+     *
+     * También evalúa condiciones de alerta.
+     ********************************************************/
     void mostrar() const {
-        mostrarEstado();
+        mostrarEstado(); // Método heredado
         cout << " | Temperatura: " << temperatura << " °C";
+
+        // Condición de alerta
         if (temperatura > 80.0) {
             cout << " | ALERTA";
         }
+
         cout << endl;
     }
 };
 
 /************************************************************
- * Clase derivada: SensorPresion
+ * CLASE DERIVADA: SensorPresion
  * ----------------------------------------------------------
- * Hereda de Sensor y agrega la variable presion.
+ * Representa un sensor especializado en presión.
+ *
+ * AGREGA:
+ * - variable presion
  ************************************************************/
 class SensorPresion : public Sensor {
 private:
     double presion;
 
 public:
+
     SensorPresion(int _id) : Sensor(_id) {
         presion = 0.0;
     }
 
+    /********************************************************
+     * generarLectura()
+     * ------------------------------------------------------
+     * Simula medición de presión.
+     ********************************************************/
     void generarLectura(mt19937 &gen) {
         uniform_real_distribution<double> dist(0.8, 1.2);
         presion = dist(gen);
     }
 
+    /********************************************************
+     * mostrar()
+     * ------------------------------------------------------
+     * Muestra información del sensor y evalúa alertas.
+     ********************************************************/
     void mostrar() const {
         mostrarEstado();
         cout << " | Presion: " << presion << " atm";
+
         if (presion < 0.9 || presion > 1.1) {
             cout << " | ALERTA";
         }
+
         cout << endl;
     }
 };
 
 /************************************************************
- * Clase derivada: SensorIluminacion
+ * CLASE DERIVADA: SensorIluminacion
  * ----------------------------------------------------------
- * Hereda de Sensor y agrega la variable iluminacion.
+ * Representa un sensor especializado en iluminación.
+ *
+ * AGREGA:
+ * - variable iluminacion
  ************************************************************/
 class SensorIluminacion : public Sensor {
 private:
     double iluminacion;
 
 public:
+
     SensorIluminacion(int _id) : Sensor(_id) {
         iluminacion = 0.0;
     }
 
+    /********************************************************
+     * generarLectura()
+     * ------------------------------------------------------
+     * Simula medición de iluminación.
+     ********************************************************/
     void generarLectura(mt19937 &gen) {
         uniform_real_distribution<double> dist(0.0, 1000.0);
         iluminacion = dist(gen);
     }
 
+    /********************************************************
+     * mostrar()
+     * ------------------------------------------------------
+     * Muestra datos y evalúa condiciones de alerta.
+     ********************************************************/
     void mostrar() const {
         mostrarEstado();
         cout << " | Iluminacion: " << iluminacion << " lx";
+
         if (iluminacion < 100.0) {
             cout << " | ALERTA";
         }
+
         cout << endl;
     }
 };
 
+/************************************************************
+ * FUNCIÓN PRINCIPAL
+ * ----------------------------------------------------------
+ * Demuestra el uso de herencia creando diferentes tipos
+ * de sensores y ejecutando sus comportamientos.
+ ************************************************************/
 int main() {
+    // Permite mostrar caracteres UTF-8 en consola (Windows)
     SetConsoleOutputCP(CP_UTF8);
+
     cout << fixed << setprecision(2);
 
-    // Generador pseudoaleatorio
+    /********************************************************
+     * Inicialización del generador pseudoaleatorio
+     ********************************************************/
     random_device rd;
     mt19937 gen(rd());
 
-    // Crear objetos de clases derivadas
+    /********************************************************
+     * Creación de objetos de clases derivadas
+     ********************************************************/
     SensorTemperatura sTemp(1);
     SensorPresion sPres(2);
     SensorIluminacion sIlum(3);
 
-    // Generar lecturas
+    /********************************************************
+     * Generación de lecturas simuladas
+     ********************************************************/
     sTemp.generarLectura(gen);
     sPres.generarLectura(gen);
     sIlum.generarLectura(gen);
 
-    // Mostrar información
+    cout << "========================================\n";
+    cout << "   EJEMPLO DE HERENCIA EN C++\n";
+    cout << "========================================\n\n";
+
+    /********************************************************
+     * Mostrar información de cada sensor
+     ********************************************************/
     sTemp.mostrar();
     sPres.mostrar();
     sIlum.mostrar();
